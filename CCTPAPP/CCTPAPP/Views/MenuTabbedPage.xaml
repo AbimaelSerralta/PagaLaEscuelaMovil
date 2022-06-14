@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+            xmlns:TabbedPages="clr-namespace:CCTPAPP.Views.TabbedPages"
+            xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" android:TabbedPage.ToolbarPlacement="Bottom"
+            x:Class="CCTPAPP.Views.MenuTabbedPage"
+            Title="Bienvenido">
+    <!--Pages can be added as references or inline-->
+    <TabbedPages:HomePage Title="Inicio" IconImageSource="inicio.png"></TabbedPages:HomePage>
+    <TabbedPages:ReportPage Title="Reportes" IconImageSource="reporte.png"></TabbedPages:ReportPage>
+    <!--<TabbedPages:PageOther Title="Otros" IconImageSource="icon.png"></TabbedPages:PageOther>-->
+    <TabbedPages:MenuPage Title="Más" IconImageSource="menu.png"></TabbedPages:MenuPage>
+</TabbedPage>

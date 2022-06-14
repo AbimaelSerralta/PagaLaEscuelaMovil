@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CCTPAPP.Views.Scanner.PaymentPage"             
+             xmlns:PanCake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             Background="#f7f7f7">
+
+    
+    
+    <NavigationPage.TitleView>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="6*"></ColumnDefinition>
+                <ColumnDefinition Width="AUTO"></ColumnDefinition>
+                
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Text="{Binding Title, Mode=TwoWay}" HorizontalOptions="Start" VerticalOptions="Center" FontAttributes="Bold" FontSize="20" TextColor="White" />
+
+            <ImageButton Grid.Column="1" Source="ic_menu_qr.png" VerticalOptions="Center" BackgroundColor="Transparent" Margin="0,0,10,0" Command="{Binding OpenScannerCommand, Mode=TwoWay}" />
+        </Grid>
+    </NavigationPage.TitleView>
+
+    <ScrollView VerticalScrollBarVisibility="Never">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,*" ColumnDefinitions="Auto,*,Auto" Padding="40,10,40,7">
+            
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalTextAlignment="Center" FontSize="20" FontAttributes="Bold" TextColor="Black" Text="{Binding DeviceConnected, Mode=TwoWay}" />
+            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalTextAlignment="Center" FontSize="20" FontAttributes="Bold" TextColor="#26b36a" Text="{Binding StatusTransaction, Mode=TwoWay}" />
+            
+            <Label Grid.Row="2" Grid.Column="1" Text="IMPORTE:" FontSize="18" TextColor="Black" VerticalOptions="End" HorizontalOptions="Center" />
+            <Label Grid.Row="3" Grid.Column="1" Text="{Binding PaymentAmount, Mode=TwoWay}" TextColor="Black" FontSize="40" FontAttributes="Bold"  VerticalOptions="End" HorizontalOptions="Center" />
+
+            <Label Grid.Row="4" Grid.Column="1" Text="REFERENCIA:" FontSize="18" TextColor="Black" VerticalOptions="End" HorizontalOptions="Center" />
+            <Editor Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Text="{Binding Reference, Mode=TwoWay}" FontSize="18" AutoSize="TextChanges" FontAttributes="Bold" TextColor="Black" Placeholder="Ingrese su referencia" Keyboard="Numeric" MaxLength="22" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" />
+            
+            <Label Grid.Row="6" Grid.Column="1" Text="CONCEPTO:" FontSize="18" TextColor="Black" VerticalOptions="End" HorizontalOptions="Center" />
+            <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3" Text="{Binding Concept, Mode=TwoWay}" FontSize="15" TextColor="Black" VerticalOptions="End" HorizontalOptions="Center" />
+
+
+            <Frame Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3" BackgroundColor="White" CornerRadius="45" Margin="-33,10,-33,0">
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Padding="20,0,20,5">
+
+                    <!--<Label Grid.Row="0" Grid.Column="0" Text="Estado del pago" Style="{StaticResource TicketTitle}"/>-->
+                    <!--<Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="Aprobado/Cancelado" Style="{StaticResource TicketDescription}"/>-->
+
+                    <Image Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Source="{Binding ImgStatusTransaction, Mode=TwoWay}"/>
+                    <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Text="Reconectar" TextColor="Black" FontAttributes="Bold" BackgroundColor="#138496" CornerRadius="20" IsVisible="{Binding IsVisibleRetry, Mode=TwoWay}" Command="{Binding RetryCommand, Mode=TwoWay}"/>
+                    <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Text="Reintentar pagar" TextColor="Black" FontAttributes="Bold" BackgroundColor="#218838" CornerRadius="20" IsVisible="{Binding IsVisibleRetryPayment, Mode=TwoWay}" Command="{Binding RetryPaymentCommand, Mode=TwoWay}"/>
+
+                    <!--<Image Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Source="cancelado"/>-->
+                </Grid>
+            </Frame>
+        </Grid>
+    </ScrollView>
+
+</ContentPage>
+
+<!--<Style x:Key="DivisionLine" TargetType="Line">
+    <Setter Property="TranslationY"      Value="{OnPlatform Android='15', iOS='20'}"/>
+    <Setter Property="VerticalOptions"   Value="Center"/>
+    <Setter Property="HorizontalOptions" Value="Center"/>
+    <Setter Property="StrokeDashArray"   Value="1,6"/>
+    <Setter Property="X2"                Value="320"/>
+    <Setter Property="StrokeLineCap"     Value="Square"/>
+    <Setter Property="Stroke"            Value="Silver"/>
+    <Setter Property="StrokeThickness"   Value="2"/>
+</Style>-->

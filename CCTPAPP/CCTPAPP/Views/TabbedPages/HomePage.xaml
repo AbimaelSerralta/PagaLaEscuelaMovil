@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CCTPAPP.Views.TabbedPages.HomePage"
+             Background="#f7f7f7"
+             Title="{Binding Title, Mode=TwoWay}">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <Frame CornerRadius="5" Padding="8" Margin="10">
+                    <StackLayout>
+                        <Label Text="Opciones de pago" FontAttributes="Bold" TextColor="Black"/>
+
+                        <!--Linea separador-->
+                        <BoxView Color="White"
+                                     HeightRequest="2"
+                                     HorizontalOptions="Fill" />
+                        <!--Linea separador-->
+
+                        <Frame Padding="0">
+                            <StackLayout>
+                                <FlexLayout Direction="Row" Wrap="Wrap">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="AUTO" />
+                                            <RowDefinition Height="AUTO" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="AUTO" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Frame Margin="5" BorderColor="Red"
+                                               CornerRadius="50" HeightRequest="50" WidthRequest="50"
+                                               IsClippedToBounds="True" HorizontalOptions="Center" VerticalOptions="Center"
+                                               FlexLayout.AlignSelf="Center" Grid.Row="0">
+                                            <ImageButton Source="terminalPago.png"
+                                                   Aspect="AspectFill"
+                                                   Margin="-20"
+                                                   HeightRequest="100"
+                                                   WidthRequest="100" Command="{Binding PaymentPageCommand}"/>
+                                        </Frame>
+
+                                        <Label Text="Lector"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center" Grid.Row="1" />
+                                    </Grid>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="AUTO" />
+                                            <RowDefinition Height="AUTO" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="AUTO" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Frame Margin="5" BorderColor="Red"
+                                               CornerRadius="50" HeightRequest="50" WidthRequest="50"
+                                               IsClippedToBounds="True" HorizontalOptions="Center" VerticalOptions="Center"
+                                               FlexLayout.AlignSelf="Center" Grid.Row="0">
+                                            <Image Source="ligaPago.png"
+                                                   Aspect="AspectFill"
+                                                   Margin="-20"
+                                                   HeightRequest="100"
+                                                   WidthRequest="100" />
+                                        </Frame>
+
+                                        <Label Text="Liga de pago"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center" Grid.Row="1" />
+                                    </Grid>
+                                </FlexLayout>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </Frame>
+
+                <Frame CornerRadius="5" Padding="8" Margin="10">
+                    <StackLayout>
+                        <Label Text="Otros" FontAttributes="Bold" TextColor="Black"/>
+
+                        <!--Linea separador-->
+                        <BoxView Color="White"
+                                     HeightRequest="2"
+                                     HorizontalOptions="Fill" />
+                        <!--Linea separador-->
+
+                        <Frame Padding="0">
+                            <StackLayout>
+                                <FlexLayout Direction="Row" Wrap="Wrap">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="AUTO" />
+                                            <RowDefinition Height="AUTO" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="AUTO" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Frame Margin="5" BorderColor="Red"
+                                               CornerRadius="50" HeightRequest="50" WidthRequest="50"
+                                               IsClippedToBounds="True" HorizontalOptions="Center" VerticalOptions="Center"
+                                               FlexLayout.AlignSelf="Center" Grid.Row="0">
+                                            <Image Source="reenviarTicket.png"
+                                                   Aspect="AspectFill"
+                                                   Margin="-20"
+                                                   HeightRequest="100"
+                                                   WidthRequest="100" />
+                                        </Frame>
+
+                                        <Label Text="Reenvio de ticket"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center" Grid.Row="1" />
+                                    </Grid>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="AUTO" />
+                                            <RowDefinition Height="AUTO" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="AUTO" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Frame Margin="5" BorderColor="Red"
+                                               CornerRadius="50" HeightRequest="50" WidthRequest="50"
+                                               IsClippedToBounds="True" HorizontalOptions="Center" VerticalOptions="Center"
+                                               FlexLayout.AlignSelf="Center" Grid.Row="0">
+                                            <Image Source="cancelacion.png"
+                                                   Aspect="AspectFill"
+                                                   Margin="-20"
+                                                   HeightRequest="100"
+                                                   WidthRequest="100" />
+                                        </Frame>
+
+                                        <Label Text="Cancelación"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center" Grid.Row="1" />
+                                    </Grid>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="AUTO" />
+                                            <RowDefinition Height="AUTO" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="AUTO" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Frame Margin="5" BorderColor="Red"
+                                               CornerRadius="50" HeightRequest="50" WidthRequest="50"
+                                               IsClippedToBounds="True" HorizontalOptions="Center" VerticalOptions="Center"
+                                               FlexLayout.AlignSelf="Center" Grid.Row="0">
+                                            <Image Source="estatusLiga.jpg"
+                                                   Aspect="AspectFill"
+                                                   Margin="-20"
+                                                   HeightRequest="100"
+                                                   WidthRequest="100" />
+                                        </Frame>
+
+                                        <Label Text="Estatus de liga"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center" Grid.Row="1" />
+                                    </Grid>
+                                </FlexLayout>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

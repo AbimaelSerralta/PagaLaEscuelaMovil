@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CCTPAPP.Views.TabbedPages.ReportPage"
+             Title="{Binding Title, Mode=TwoWay}"
+             Background="#f7f7f7"
+             >
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" Padding="10">
+                <Label Grid.Column="0" Grid.Row="0" Text="Fecha Inical:" LineBreakMode="NoWrap" FontSize="16" HorizontalTextAlignment="Start" />
+                <DatePicker Grid.Column="0" Grid.Row="1" Date="{Binding FechaInicio, Mode=TwoWay}" Format="dd/MM/yyyy" FontSize="16"></DatePicker>
+
+                <Label Grid.Column="1" Grid.Row="0" Text="Fecha Final:" LineBreakMode="NoWrap" FontSize="16" HorizontalTextAlignment="Start" />
+                <DatePicker Grid.Column="1" Grid.Row="1" Date="{Binding FechaFinal, Mode=TwoWay}" Format="dd/MM/yyyy" FontSize="16"></DatePicker>
+            </Grid>
+
+            <ListView x:Name="lvReporte" 
+                      ItemsSource="{Binding ItSoReporte}"
+                      VerticalOptions="FillAndExpand"
+                      HasUnevenRows="true"
+                      SeparatorVisibility="None"
+                      RefreshCommand="{Binding RefreshCommand}"
+                      IsPullToRefreshEnabled="{Binding IsPullToRefreshEnabled, Mode=TwoWay}"
+                      IsRefreshing="{Binding IsRefreshing, Mode=OneWay}"
+                      CachingStrategy="RecycleElement">
+                <!--ItemSelected="OnItemSelected"-->
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10">
+                                <Frame HasShadow="True" CornerRadius="15" BackgroundColor="{Binding frameBackgroundColor, Mode=TwoWay}">
+                                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto, Auto, Auto, Auto, Auto">
+                                        <Label Grid.Column="0" Grid.Row="0" Text="Referencia:" LineBreakMode="NoWrap" FontSize="16" HorizontalTextAlignment="End" />
+                                        <Label Grid.Column="1" Grid.Row="0" Text="{Binding reference, Mode=TwoWay}" LineBreakMode="NoWrap" FontSize="16" HorizontalTextAlignment="Start" />
+
+                                        <Label Grid.Column="0" Grid.Row="1" Text="Fecha:" LineBreakMode="NoWrap" FontSize="16" HorizontalTextAlignment="End" />
+                                        <Label Grid.Column="1" Grid.Row="1" Text="{Binding date, Mode=TwoWay}" LineBreakMode="NoWrap" FontSize="16" HorizontalTextAlignment="Start" />
+
+                                        <Label Grid.Column="0" Grid.Row="2" Text="Importe:" LineBreakMode="NoWrap" FontSize="16" HorizontalTextAlignment="End" />
+                                        <Label Grid.Column="1" Grid.Row="2" Text="{Binding amount, Mode=TwoWay}" LineBreakMode="NoWrap" FontSize="16" HorizontalTextAlignment="Start" />
+
+                                        <Label Grid.Column="0" Grid.Row="3" Text="Tipo:" LineBreakMode="NoWrap" FontSize="16" HorizontalTextAlignment="End" />
+                                        <Label Grid.Column="1" Grid.Row="3" Text="{Binding operationType, Mode=TwoWay}" LineBreakMode="NoWrap" FontSize="16" HorizontalTextAlignment="Start" />
+                                        
+                                        <Label Grid.Column="0" Grid.Row="4" Text="Seria:" LineBreakMode="NoWrap" FontSize="16" HorizontalTextAlignment="End" />
+                                        <Label Grid.Column="1" Grid.Row="4" Text="{Binding serialNumber, Mode=TwoWay}" LineBreakMode="NoWrap" FontSize="16" HorizontalTextAlignment="Start" />
+
+                                    </Grid>
+                                </Frame>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

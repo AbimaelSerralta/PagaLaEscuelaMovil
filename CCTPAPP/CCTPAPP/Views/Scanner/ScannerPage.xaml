@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CCTPAPP.Views.Scanner.ScannerPage"
+             xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
+             Title="{Binding Title}">
+
+
+    <ContentPage.Content>
+        <Grid VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                        <zxing:ZXingScannerView 
+                            x:Name="scanView"
+                            Result="{Binding CodigoQr, Mode=TwoWay}"
+                            ScanResultCommand="{Binding ResultScannerCommand, Mode=TwoWay}" 
+                            IsScanning="{Binding IsScanning, Mode=TwoWay}" 
+                            IsAnalyzing="{Binding IsScanning, Mode=TwoWay}"
+                            IsTabStop="{Binding IsScanning, Mode=TwoWay}"
+                            IsTorchOn="{Binding IsScanning, Mode=TwoWay}"
+                            VerticalOptions="CenterAndExpand" 
+                            HorizontalOptions="CenterAndExpand" 
+                            />
+
+                        <zxing:ZXingDefaultOverlay TopText="Coloque el QR dentro del recuadro"/>
+                        <!--<Button Command="{Binding ResultScannerCommand}"></Button>-->
+                
+            <!--<Grid Opacity=".7" BackgroundColor="Black" IsVisible="{Binding IsLoading}">
+                <Grid VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding IsLoading}">
+                    <BoxView Color="White" CornerRadius="10" WidthRequest="150"
+                HeightRequest="150" VerticalOptions="Center" HorizontalOptions="Center" />
+                    <ActivityIndicator VerticalOptions="Center" HorizontalOptions="Center" Color="#03357d" WidthRequest="100" HeightRequest="100" IsRunning="{Binding IsLoading}" />
+                </Grid>
+            </Grid>-->
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

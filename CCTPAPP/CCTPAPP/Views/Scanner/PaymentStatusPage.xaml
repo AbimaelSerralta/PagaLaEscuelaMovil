@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CCTPAPP.Views.Scanner.PaymentStatusPage"
+             NavigationPage.HasNavigationBar="False"
+             Title="{Binding Title}">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout BackgroundColor="#fbfaff">
+
+                <!-- 1. Profile Picture-->
+                <Grid RowDefinitions="210" BackgroundColor="#26b36a">
+                    <Grid Grid.Row="0" RowDefinitions="Auto, Auto" Padding="5">
+                        <Image Grid.Row="0" Source="aprobado" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        <Label Grid.Row="1" VerticalOptions="End" HorizontalOptions="Center">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="¡Pago exitoso!" FontSize="20" FontAttributes="Bold" ForegroundColor="White" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </Grid>
+                </Grid>
+
+                <Frame CornerRadius="20" Margin="0,-20,0,0" BackgroundColor="#fbfaff" HasShadow="False" HeightRequest="19"/>
+
+                <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto" Margin="30,-20,30,10">
+                    <Label Text="REFERENCIA:" HorizontalOptions="Center" Grid.Column="0" Grid.Row="0" />
+                    <Label Text="{Binding Reference, Mode=TwoWay}" TextColor="Black" HorizontalOptions="Center" Grid.Column="0" Grid.Row="1" />
+
+                    <Label Text="CONCEPTO:" HorizontalOptions="Center" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="1" />
+                    <Label Text="{Binding Concept, Mode=TwoWay}" TextColor="Black" HorizontalOptions="Center" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="1" />
+
+                    <Label Text="IMPORTE:" HorizontalOptions="Center" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="1" />
+                    <Label Text="{Binding Amount, Mode=TwoWay}" TextColor="Black" HorizontalOptions="Center" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="1" />
+
+                    <Label Text="TARJETA:" HorizontalOptions="Center" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="1" />
+                    <Label Text="{Binding Card, Mode=TwoWay}" TextColor="Black" HorizontalOptions="Center" Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="1" />
+
+                    <Label Text="AUTORIZACIÓN:" HorizontalOptions="Center" Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="1" />
+                    <Label Text="{Binding Authorization, Mode=TwoWay}" TextColor="Black" HorizontalOptions="Center" Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="1" />
+                    
+                    <Label Text="FOLIO:" HorizontalOptions="Center" Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="1" />
+                    <Label Text="{Binding Folio, Mode=TwoWay}" TextColor="Black" HorizontalOptions="Center" Grid.Column="0" Grid.Row="11" Grid.ColumnSpan="1" />
+
+                    <Label Text="FECHA:" HorizontalOptions="Center" Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="1" />
+                    <Label Text="{Binding Date, Mode=TwoWay}" TextColor="Black" HorizontalOptions="Center" Grid.Column="0" Grid.Row="13" Grid.ColumnSpan="1" />
+
+                    <Editor Text="{Binding Email, Mode=TwoWay}" Grid.Column="0" Grid.Row="14" Grid.ColumnSpan="1" AutoSize="TextChanges" FontAttributes="Bold" TextColor="Black" Placeholder="Ingrese un correo" Keyboard="Email" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
+                    <Button Text="Enviar Voucher" Grid.Column="0" Grid.Row="15" Grid.ColumnSpan="1" TextColor="White" FontAttributes="Bold" BackgroundColor="#218838" CornerRadius="20" Command="{Binding SendVoucherCommand, Mode=TwoWay}"/>
+                    <Button Text="Regresar a Inicio" Grid.Column="0" Grid.Row="16" Grid.ColumnSpan="1" TextColor="White" FontAttributes="Bold" BackgroundColor="#138496" CornerRadius="20" Command="{Binding GoToHomeCommand, Mode=TwoWay}"/>
+                </Grid>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

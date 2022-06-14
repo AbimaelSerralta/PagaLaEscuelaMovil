@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CCTPAPP.Views.LoginPage"
+             NavigationPage.HasNavigationBar="False"
+             Title="{Binding Title}">
+    <ContentPage.Content>
+        <Grid>
+
+            <Grid BackgroundColor="#f7f7f7">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Frame CornerRadius="10" BackgroundColor="White" Grid.RowSpan="2"  Margin="20,20,20,20">
+                    <ScrollView>
+                        <Grid RowSpacing="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Image Source="logoCCT.png" Grid.Row="0"/>
+                            <BoxView Grid.Row="2" HorizontalOptions="FillAndExpand" HeightRequest="1" BackgroundColor="Silver" />
+
+                            <StackLayout Grid.Row="3" Orientation="Vertical">
+                                <Label Text="Usuario" TextColor="Black" />
+
+                                <Entry x:Name="txtUserName" ReturnType="Next" ReturnCommand="{Binding NextComman}" Placeholder="Ingrese su usuario" Text="{Binding UserName, Mode=TwoWay}" TextColor="#03357d" />
+
+                                <Label Text="Contraseña" TextColor="Black" />
+
+                                <Entry x:Name="txtPassword" ReturnType="Go" ReturnCommand="{Binding LoginCommand}" Placeholder="********" TextColor="#03357d" Text="{Binding Password, Mode=TwoWay}" IsPassword="True" />
+
+                                <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Padding="0" Spacing="16">
+                                    <Label TextColor="Black" Text="Recordar Contraseña" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start" />
+                                    <Switch x:Name="swRemember" IsToggled="{Binding IsRememberUserName, Mode=TwoWay}" VerticalOptions="StartAndExpand" HorizontalOptions="EndAndExpand" OnColor="#1976D2" />
+                                </StackLayout>
+
+                                <StackLayout Margin="0,25,0,0" Orientation="Vertical">
+                                    <Button Text="Ingresar" TextColor="White" FontAttributes="Bold" BackgroundColor="#03357d" CornerRadius="20" IsEnabled="{Binding IsEnabled}" Command="{Binding LoginCommand}"/>
+                                    <!--<Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label BackgroundColor="#bababa" HeightRequest="1" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+                                        <Label Text="Ó" Grid.Column="1" VerticalOptions="Center" />
+                                        <Label BackgroundColor="#bababa" Grid.Column="2" HeightRequest="1" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+                                    </Grid>-->
+                                    <!--<Button Text="Registrarme" VerticalOptions="Start" Grid.Row="2" TextColor="White" FontAttributes="Bold" BackgroundColor="#673ab7" CornerRadius="20" IsEnabled="{Binding IsEnabled}" Command="{Binding RegisterComman}"/>-->
+
+                                    <Label HorizontalOptions="Center" LineBreakMode="WordWrap">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="¿Olvidó su contraseña?" FontSize="Subtitle" TextColor="Black" FontAttributes="Bold">
+                                                    <Span.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding RecoveryPasswordCommand}" />
+                                                    </Span.GestureRecognizers>
+                                                </Span>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </StackLayout>
+                            </StackLayout>
+                        </Grid>
+                    </ScrollView>
+                </Frame>
+            </Grid>
+
+            <!--<Grid Opacity=".7" BackgroundColor="Black" IsVisible="{Binding IsLoading}">
+                <Grid VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding IsLoading}">
+                    <BoxView Color="White" CornerRadius="10" WidthRequest="150"
+                HeightRequest="150" VerticalOptions="Center" HorizontalOptions="Center" />
+
+                    <ActivityIndicator VerticalOptions="Center" HorizontalOptions="Center" Color="#03357d" WidthRequest="100" HeightRequest="100" IsRunning="{Binding IsLoading}" />
+                </Grid>
+            </Grid>-->
+            <!--<Grid Margin="280,0,0,0" BackgroundColor="Black" VerticalOptions="End">
+            <StackLayout BackgroundColor="Transparent" CascadeInputTransparent="True" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" Orientation="Horizontal" Padding="15" Spacing="10">
+                <Button Command="{Binding WindowsRegisterCommand}" BackgroundColor="#e1790a" Image="ic_car_nav_menu.png" VerticalOptions="StartAndExpand" HorizontalOptions="EndAndExpand" CornerRadius="30" HeightRequest="60" WidthRequest="60"/>
+            </StackLayout>
+        </Grid>-->
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
