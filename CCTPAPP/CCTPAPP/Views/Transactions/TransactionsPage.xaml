@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CCTPAPP.Views.Transactions.TransactionsPage"
+             Background="#f7f7f7"
+             Title="{Binding Title, Mode=TwoWay}">
+    <ContentPage.Content>
+        <Grid>
+            <StackLayout>
+                <ListView x:Name="lvTransactions" 
+                      ItemsSource="{Binding ItSourceTransactions}"
+                      VerticalOptions="FillAndExpand"
+                      HasUnevenRows="true"
+                      SeparatorVisibility="None"
+                      RefreshCommand="{Binding RefreshCommand}"
+                      IsPullToRefreshEnabled="{Binding IsPullToRefreshEnabled, Mode=TwoWay}"
+                      IsRefreshing="{Binding IsRefreshing, Mode=OneWay}"
+                      CachingStrategy="RecycleElement"
+                      SelectedItem="{Binding ItemSelectedTransaction, Mode=TwoWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="10">
+                                    <Frame HasShadow="True" CornerRadius="15" BackgroundColor="{Binding frameBackgroundColor, Mode=TwoWay}">
+                                        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
+
+                                            <Label Grid.Column="0" Grid.Row="0" Text="Referencia:" LineBreakMode="NoWrap" FontSize="16" HorizontalTextAlignment="End" />
+                                            <Label Grid.Column="1" Grid.Row="0" Text="{Binding reference, Mode=TwoWay}" LineBreakMode="NoWrap" FontSize="16" HorizontalTextAlignment="Start" />
+
+                                            <Label Grid.Column="0" Grid.Row="1" Text="Fecha:" LineBreakMode="NoWrap" FontSize="16" HorizontalTextAlignment="End" />
+                                            <Label Grid.Column="1" Grid.Row="1" Text="{Binding date, StringFormat='{0:dd/MM/yyyy HH:mm:ss}', Mode=TwoWay}" FontSize="16" HorizontalTextAlignment="Start" />
+
+                                            <Label Grid.Column="0" Grid.Row="2" Text="Importe:" LineBreakMode="NoWrap" FontSize="16" HorizontalTextAlignment="End" />
+                                            <Label Grid.Column="1" Grid.Row="2" Text="{Binding amount, StringFormat='{0:C}'}" FontSize="16" HorizontalTextAlignment="Start" />
+
+                                            <Label Grid.Column="0" Grid.Row="3" Text="Concepto:" LineBreakMode="NoWrap" FontSize="16" HorizontalTextAlignment="End" />
+                                            <Label Grid.Column="1" Grid.Row="3" Text="{Binding concept, Mode=TwoWay}" FontSize="16" HorizontalTextAlignment="Start" />
+
+                                            <!--<Label Grid.Column="0" Grid.Row="4" Text="Seria:" LineBreakMode="NoWrap" FontSize="16" HorizontalTextAlignment="End" />
+                                            <Label Grid.Column="1" Grid.Row="4" Text="{Binding serialNumber, Mode=TwoWay}" LineBreakMode="NoWrap" FontSize="16" HorizontalTextAlignment="Start" />-->
+
+                                        </Grid>
+                                    </Frame>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </StackLayout>
+
+            <Grid Opacity=".5" BackgroundColor="Black" IsVisible="{Binding IsLoading}">
+                <Grid VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding IsLoading}">
+
+                </Grid>
+            </Grid>
+
+            <Image Source="loader.gif" IsVisible="{Binding IsLoading}" IsAnimationPlaying="{Binding IsLoading}" WidthRequest="150" HeightRequest="150" VerticalOptions="Center" HorizontalOptions="Center" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

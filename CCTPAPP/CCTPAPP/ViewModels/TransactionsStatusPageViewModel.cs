@@ -12,7 +12,7 @@ using Xamarin.Forms;
 
 namespace CCTPAPP.ViewModels
 {
-    public class PaymentStatusPageViewModel : ViewModelBase, IPageLifecycleAware, INavigationAware
+    public class TransactionsStatusPageViewModel : ViewModelBase, IPageLifecycleAware, INavigationAware
     {
         #region Propiedades
 
@@ -107,7 +107,7 @@ namespace CCTPAPP.ViewModels
         #endregion
 
         #region Constructor
-        public PaymentStatusPageViewModel(INavigationService navigationService, IPageDialogService dialogService, IDialogService iDialogService)
+        public TransactionsStatusPageViewModel(INavigationService navigationService, IPageDialogService dialogService, IDialogService iDialogService)
             : base(navigationService)
         {
             Title = "Estatus del pago";
