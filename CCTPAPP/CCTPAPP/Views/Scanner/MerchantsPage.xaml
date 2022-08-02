@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CCTPAPP.Views.Scanner.MerchantsPage"
+             Title="{Binding Title, Mode=TwoWay}"
+             Background="#f7f7f7"
+             >
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid ColumnDefinitions="Auto" RowDefinitions="Auto" Padding="10">
+                <Label Grid.Column="0" Grid.Row="0" Text="Por favor seleccione la forma de pago" MaxLines="2" LineBreakMode="NoWrap" FontSize="16" HorizontalTextAlignment="Start" />
+            </Grid>
+
+            <ListView x:Name="lvMerchants" 
+                      ItemsSource="{Binding ItemsSourceMerchants}"
+                      VerticalOptions="FillAndExpand"
+                      HasUnevenRows="true"
+                      SeparatorVisibility="None"
+                      RefreshCommand="{Binding RefreshCommand}"
+                      IsPullToRefreshEnabled="{Binding IsPullToRefreshEnabled, Mode=TwoWay}"
+                      IsRefreshing="{Binding IsRefreshing, Mode=OneWay}"
+                      CachingStrategy="RecycleElement"
+                      SelectedItem="{Binding ItemSelectedMerchant, Mode=TwoWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10">
+                                <Frame HasShadow="True" CornerRadius="15" BackgroundColor="{Binding frameBackgroundColor, Mode=TwoWay}">
+                                    <Grid ColumnDefinitions="Auto" RowDefinitions="Auto">
+                                        <Label Grid.Column="0" Grid.Row="0" Text="{Binding Merchant, Mode=TwoWay}" FontSize="20" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Start" />
+                                    </Grid>
+                                </Frame>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

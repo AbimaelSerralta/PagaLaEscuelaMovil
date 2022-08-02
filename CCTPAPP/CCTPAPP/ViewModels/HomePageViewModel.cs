@@ -21,7 +21,9 @@ namespace CCTPAPP.ViewModels
         #region Atributos
         private DelegateCommand _navigateCommand;
         private readonly INavigationService _navigationService;
-       
+
+        public DelegateCommand PaymentPageCommand { get; private set; }
+        public DelegateCommand TransactionsPageCommand { get; private set; }
         #endregion
 
         #region Constructor
@@ -30,16 +32,20 @@ namespace CCTPAPP.ViewModels
         {
             Title = "Inicio";
             _navigationService = navigationService;
+
+            PaymentPageCommand = new DelegateCommand(ExecutePaymentPageCommand);
+            TransactionsPageCommand = new DelegateCommand(ExecuteTransactionsPageCommand);
         }
         #endregion
 
         #region ICommands
-
-        public DelegateCommand PaymentPageCommand =>
-            _navigateCommand ?? (_navigateCommand = new DelegateCommand(ExecutePaymentPageCommand));
         async void ExecutePaymentPageCommand()
         {
             await _navigationService.NavigateAsync("PaymentPage");
+        }
+        async void ExecuteTransactionsPageCommand()
+        {
+            await _navigationService.NavigateAsync("TransactionsPage");
         }
 
         #endregion

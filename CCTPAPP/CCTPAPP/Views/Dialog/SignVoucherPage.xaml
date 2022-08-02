@@ -28,3 +28,27 @@
         </Grid>
     </Frame>
 </StackLayout>
+
+
+
+<!--<StackLayout Grid.Row="1">
+    <controls:SignaturePadView
+                x:Name="SignatureView" 
+                    BackgroundColor="White" 
+                    HeightRequest="200"
+                    CaptionText= "Por favor dibuje su firma"
+                    CaptionTextColor="Black"
+                    CaptionFontSize="14"
+                    PromptText="Folio :099990461 
+                    &#x0a;Auth :634151 
+                    &#x0a;Importe :60.00
+                    &#x0a;Fecha :09/06/2022:21:59:58
+                    &#x0a;Merchant :7428392 0
+                    &#x0a;______________________________________
+                    &#x0a;            FIRMA DIGITALIZADA"
+                    PromptTextColor="#8a8a8a"
+                    StrokeColor= "#3927e7"
+                    StrokeWidth= "2"
+             />
+    --><!--BackgroundColor="#CEE3F6"--><!--
+</StackLayout>-->

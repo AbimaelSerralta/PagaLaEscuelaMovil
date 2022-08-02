@@ -7,6 +7,9 @@ using Prism.AppModel;
 using CCTPAPP.PlatformServices.Abstract;
 using Prism.Services;
 using System;
+using CCTPAPP.Resources;
+using Xamarin.Essentials;
+using CCTPAPP.Models.Apis;
 
 namespace CCTPAPP.ViewModels
 {
@@ -19,11 +22,25 @@ namespace CCTPAPP.ViewModels
         IPageDialogService _dialogService;
         bool continuarProcesoPraga = true;
 
-        private List<PragaTransactionData> _itSoReporte;
-        public List<PragaTransactionData> ItSoReporte
+        private List<TransactionReportReader> _itSoReporte;
+        public List<TransactionReportReader> ItSoReporte
         {
             get { return _itSoReporte; }
             set { SetProperty(ref _itSoReporte, value); }
+        }
+
+        private TransactionReportReader _itemSelectedReportPaymet { get; set; }
+        public TransactionReportReader ItemSelectedReportPaymet
+        {
+            get { return _itemSelectedReportPaymet; }
+            set
+            {
+                if (_itemSelectedReportPaymet != value)
+                {
+                    _itemSelectedReportPaymet = value;
+                    GetReportPaymet();
+                }
+            }
         }
 
         private DateTime _fechaInicio;
@@ -53,9 +70,15 @@ namespace CCTPAPP.ViewModels
             get { return _isRefreshing; }
             set { SetProperty(ref _isRefreshing, value); }
         }
-        
-        #endregion
 
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return this._isLoading; }
+
+            set { SetProperty(ref this._isLoading, value); }
+        }
+        #endregion
 
         #region Atributos
         private DelegateCommand _navigateCommand;
@@ -75,6 +98,7 @@ namespace CCTPAPP.ViewModels
             FechaInicio = DateTime.Now;
             FechaFinal = DateTime.Now;
             IsPullToRefreshEnabled = true;
+            IsLoading = false;
 
             // Subscribe to Event
             MessagingCenter.Subscribe<TransactionsData>(this, "OnReturnTransactions", this.OnReturnTransactions);
@@ -100,30 +124,95 @@ namespace CCTPAPP.ViewModels
 
         private async void GetTransactions()
         {
-            string apiKey = string.Empty;
-            string encryptionKey = string.Empty;
-            string userCode = string.Empty;
-            int businessID = 0;
+            this.IsLoading = true;
+            bool checkInternet = ValidateInternet();
 
-            //Se realiza la consulta para obtener las credenciales
-            //=>
+            //Se realiza la consulta para obtener datos y las credenciales
+            ApiServices apiServices = new ApiServices("GetPayReader");
 
-            //=> El resultado se asigna a las variables
-            apiKey = "ZDMxYzc3MGItZjEyMS00OTRhLTkxNmQtYmE5Yjk0M2YzYzlm";
-            encryptionKey = "NDQ1MUI0QTJFQkE5RTNENDlFNzk4MUZEMjQ2NEMzNjE=";
-            userCode = "1610137579779";
-            businessID = 13131;
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("UidAppMovil", "4A1F76A5-AA62-4C5D-8E5B-15A7826BACAC");
 
-            Device.BeginInvokeOnMainThread(() =>
+            var result = await apiServices.POST<TransactionReportReader>(
+            action: "",
+            responseType: ApiServices.ResponseType.List,
+            parameters: parameters);
+
+            if (result != null && result.IsSuccess)
             {
-                dps.InitController();
+                List<TransactionReportReader> lsTransactionReportReader = new List<TransactionReportReader>();
+                lsTransactionReportReader = (List<TransactionReportReader>)result.Result;
+                
+                ItSoReporte = lsTransactionReportReader;
 
-                dps.SetCustomerConfiguration(apiKey, encryptionKey, userCode, businessID);
-                dps.GetTransactions(FechaInicio.ToString("dd/MM/yyyy"), FechaFinal.ToString("dd/MM/yyyy"));
+                this.IsLoading = false;
+            }
+            else
+            {
+                if (checkInternet)
+                {
+                    await _dialogService.DisplayAlertAsync("Error de conexión", "Lo sentimos, el dispositivo no esta conectado a una red, por favor verifique su conexión.", "Aceptar");
+                    //await _dialogService.DisplayAlertAsync("Error de conexión", "Lo sentimos, no hemos tenido conexión con el servicio, favor intentarlo más tarde.", "Aceptar");
+                }
+                else
+                {
+                    await _dialogService.DisplayAlertAsync("Error de conexión",
+                        "Lo sentimos, ha ocurrido un error inesperado."
+                        + Environment.NewLine + "Error: " + result.Message, "Aceptar");
+                }
 
-            });
+                this.IsLoading = false;
+
+                return;
+            }
         }
 
+        //Reporte desde la PragaController
+        //private async void GetTransactions()
+        //{
+        //    string apiKey = string.Empty;
+        //    string encryptionKey = string.Empty;
+        //    string userCode = string.Empty;
+        //    int businessID = 0;
+
+        //    //Se realiza la consulta para obtener las credenciales
+        //    //=>
+
+        //    //=> El resultado se asigna a las variables
+        //    apiKey = "YzFlMzNjMWQtYWUxOS00NjVhLThjMjgtN2Y2OTFlYmIyM2Q3";
+        //    encryptionKey = "M0QzOUY5REU1MEIzMkFBNEMwQTQyMjFCMzE1MkE5NTA=";
+        //    userCode = "1628578238248";
+        //    businessID = 14421;
+
+        //    Device.BeginInvokeOnMainThread(() =>
+        //    {
+        //        dps.InitController();
+
+        //        dps.SetCustomerConfiguration(apiKey, encryptionKey, userCode, businessID);
+        //        dps.GetTransactions(FechaInicio.ToString("dd/MM/yyyy"), FechaFinal.ToString("dd/MM/yyyy"));
+
+        //    });
+        //}
+
+        private async void GetReportPaymet()
+        {
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add("TransactionReportReader", ItemSelectedReportPaymet);
+            await _navigationService.NavigateAsync("ReportVoucherPage", navigationParameters);
+        }
+
+        private bool ValidateInternet()
+        {
+            bool result = false;
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _dialogService.DisplayAlertAsync("Error de conexión", "Lo sentimos, el dispositivo no esta conectado a una red, por favor verifique su conexión.", "Aceptar");
+                this.IsLoading = false;
+                result = true;
+            }
+
+            return result;
+        }
         #endregion
 
         #region Events
@@ -140,7 +229,7 @@ namespace CCTPAPP.ViewModels
             }
             else
             {
-                ItSoReporte = transactionsData.pragaListTransactionData.listTransaction;
+                //ItSoReporte = transactionsData.pragaListTransactionData.listTransaction;
             }
         }
 
