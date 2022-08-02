@@ -105,7 +105,29 @@ namespace CCTPAPP.Droid.Praga
 
         public void OnReturnMerchants(IList<string> p0)
         {
+            List<PragaMerchants> lsPragaMerchants = new List<PragaMerchants>();
 
+            for (int i = 0; i < p0.Count; i++)
+            {
+                string nameMerchants = "";
+
+                if (p0[i] == "C")
+                {
+                    nameMerchants = "Contado";
+                }
+                else if (p0[i].Contains("M"))
+                {
+                    nameMerchants = p0[i].Replace("M", " MESES");
+                }
+
+                lsPragaMerchants.Add(new PragaMerchants()
+                {
+                    Merchant = nameMerchants,
+                    Value = p0[i]
+                });
+            }
+
+            MessagingCenter.Send<List<PragaMerchants>>(lsPragaMerchants, "OnReturnMerchants");
         }
 
         public void OnReturnScannedDevices(ScanProcess p0, IList<PragaBondedDevices> p1)
@@ -179,6 +201,9 @@ namespace CCTPAPP.Droid.Praga
                 //ccMark = p0.ccMark
                 idPragaTransaction = p0.IdTransaction,
                 businessID = p0.BusinessID,
+                isApproved = p0.Approved,
+                isCancel = p0.Cancel,
+                isReversal = p0.Reversal,
                 memberShip = p0.MemberShip,
                 currency = p0.Currency,
                 cardMasked = p0.CardMasked,
@@ -187,8 +212,8 @@ namespace CCTPAPP.Droid.Praga
                 url = p0.Url,
                 product = p0.Product,
                 response = p0.Response,
-                QPS = p0.QPS,
-                chipPin = p0.ChipPin
+                isQPS = p0.QPS,
+                isChipPin = p0.ChipPin
 
             }, "OnReturnTransactionResult");
         }
@@ -250,8 +275,8 @@ namespace CCTPAPP.Droid.Praga
                         url = item.Url,
                         product = item.Product,
                         response = item.Response,
-                        QPS = item.QPS,
-                        chipPin = item.ChipPin,
+                        isQPS = item.QPS,
+                        isChipPin = item.ChipPin,
                         frameBackgroundColor = FrameBackgroundColor
                     });
                 }
@@ -310,7 +335,7 @@ namespace CCTPAPP.Droid.Praga
                     sent = p0,
                     pragaErrorData = pragaErrorData
                 }
-                , "onReturnVoucher");
+                , "OnReturnVoucher");
         }
     }
 }

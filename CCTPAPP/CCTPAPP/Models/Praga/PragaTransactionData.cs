@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,6 +8,9 @@ namespace CCTPAPP.Models.Praga
 {
     public class PragaTransactionData
     {
+        [PrimaryKey] //Se usa para identificar el pago en Sqlite
+        public Guid UidPragaTransactionData { get; set; }
+
         public string pragaTypeTransactionData { get; set; }
         public string reference { get; set; }
         public string folio { get; set; }
@@ -28,6 +33,9 @@ namespace CCTPAPP.Models.Praga
         public string ccMark { get; set; }
         public string idPragaTransaction { get; set; }
         public string businessID { get; set; }
+        public bool isApproved { get; set; }
+        public bool isCancel { get; set; }
+        public bool isReversal { get; set; }
         public string memberShip { get; set; }
         public string currency { get; set; }
         public string cardMasked { get; set; }
@@ -36,8 +44,8 @@ namespace CCTPAPP.Models.Praga
         public string url { get; set; }
         public string product { get; set; }
         public string response { get; set; }
-        public bool QPS { get; set; }
-        public bool chipPin { get; set; }
+        public bool isQPS { get; set; }
+        public bool isChipPin { get; set; }
         public string frameBackgroundColor { get; set; }
     }
 }

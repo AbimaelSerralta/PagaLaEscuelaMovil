@@ -11,6 +11,13 @@ using CCTPAPP.Models.Praga;
 using Prism.AppModel;
 using CCTPAPP.PlatformServices.Abstract;
 using Prism.Services;
+using Xamarin.Essentials;
+using CCTPAPP.Resources;
+using CCTPAPP.Models;
+using CCTPAPP.Models.Apis;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
+using Prism.Services.Dialogs;
 
 namespace CCTPAPP.ViewModels
 {
@@ -21,6 +28,9 @@ namespace CCTPAPP.ViewModels
         //var dps = DependencyService.Get<IPragaService>();
         IPragaService dps = DependencyService.Resolve<IPragaService>();
         IPageDialogService _dialogService;
+        IDialogService _iDialogService;
+        AESCryptoPraga aesCryptoPraga = new AESCryptoPraga();
+
         bool continuarProcesoPraga = true;
 
         private string _codigoQr;
@@ -91,6 +101,14 @@ namespace CCTPAPP.ViewModels
             set { SetProperty(ref _concept, value); }
         }
 
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return this._isLoading; }
+
+            set { SetProperty(ref this._isLoading, value); }
+        }
+
         bool SeguirProceso = false;
         Guid newGuid;
         string apiKey = string.Empty;
@@ -99,6 +117,7 @@ namespace CCTPAPP.ViewModels
         int businessID = 0;
         string Email = "";
         decimal amount = 0;
+        string strAmount = "0";
         string macAddress = string.Empty;
         #endregion
 
@@ -113,18 +132,21 @@ namespace CCTPAPP.ViewModels
 
         #region Constructor
 
-        public PaymentPageViewModel(INavigationService navigationService, IPageDialogService dialogService)
+        public PaymentPageViewModel(INavigationService navigationService, IPageDialogService dialogService, IDialogService iDialogService)
             : base(navigationService)
         {
             Title = "Proceso de pago";
             _navigationService = navigationService;
             _dialogService = dialogService;
+            _iDialogService = iDialogService;
 
             DeviceConnected = "Lector no conectado";
             StatusTransaction = "Por favor escaneé su codigo QR o bien escriba la referencia";
             ImgStatusTransaction = "terminalNoConectado";
             IsVisibleRetry = false;
             IsVisibleRetryPayment = false;
+
+            IsLoading = false;
 
             //_dialogService.DisplayAlertAsync("Mensaje: ", "Por favor escaneé su codigo QR o bien escriba la referencia.", "OK");
 
@@ -165,29 +187,101 @@ namespace CCTPAPP.ViewModels
 
         #region Metodos
 
-        private void GetPaymentData()
+        //private async void GetPaymentData()
+        //{
+        //    this.IsLoading = true;
+        //    ValidateInternet();
+
+        //    if (Guid.TryParse(CodigoQr, out newGuid))
+        //    {
+        //        string codigo = CodigoQr;
+
+        //        //Se realiza la consulta para obtener datos y las credenciales
+
+        //        //=> El resultado se asigna a las variables
+
+        //        Reference = "pago prueba";
+        //        apiKey = "YzFlMzNjMWQtYWUxOS00NjVhLThjMjgtN2Y2OTFlYmIyM2Q3";
+        //        encryptionKey = "M0QzOUY5REU1MEIzMkFBNEMwQTQyMjFCMzE1MkE5NTA=";
+        //        userCode = "1628578238248";
+        //        businessID = int.Parse("14421");
+        //        Email = "serralta@compuandsoft.com";
+        //        amount = decimal.Parse("50");
+        //        Concept = "pago prueba promociones";
+
+        //        PaymentAmount = "$50.00";
+
+        //        SeguirProceso = true;
+
+        //        this.IsLoading = false;
+        //    }
+
+        //    if (SeguirProceso)
+        //    {
+        //        dps.InitController();
+
+        //        dps.SetCustomerConfiguration(apiKey, encryptionKey, userCode, businessID);
+
+        //        if (continuarProcesoPraga)
+        //        {
+        //            dps.SetDevice(PragaDeviceReaderData.QPOS);
+
+        //            dps.GetBondedDevices();
+        //        }
+
+        //    }
+        //}
+
+        private async void GetPaymentData()
         {
+            this.IsLoading = true;
+            ValidateInternet();
+
             if (Guid.TryParse(CodigoQr, out newGuid))
             {
                 string codigo = CodigoQr;
 
-                //Se realiza la consulta para obtener las credenciales
-                //=>
+                //Se realiza la consulta para obtener datos y las credenciales
+                ApiServices apiServices = new ApiServices("GetDataPayReader");
 
-                //=> El resultado se asigna a las variables
-                Reference = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                apiKey = "ZDMxYzc3MGItZjEyMS00OTRhLTkxNmQtYmE5Yjk0M2YzYzlm";
-                encryptionKey = "NDQ1MUI0QTJFQkE5RTNENDlFNzk4MUZEMjQ2NEMzNjE=";
-                userCode = "1610137579779";
-                businessID = 13131;
-                Email = "serralta2008@gmail.com";
-                amount = 490.54M;
+                Dictionary<string, string> parameters = new Dictionary<string, string>();
+                parameters.Add("strResponse", codigo);
 
-                PaymentAmount = "$" + amount.ToString("N2");
+                var result = await apiServices.POST<DatosPagosLector>(
+                action: "",
+                responseType: ApiServices.ResponseType.Object,
+                parameters: parameters);
 
-                Concept = "PAGO DE MANTENIMIENTO ASERRALTA 06/06/2020";
+                if (result != null && result.IsSuccess)
+                {
+                    //=> El resultado se asigna a las variables
+                    DatosPagosLector datosPagosLector = new DatosPagosLector();
 
-                SeguirProceso = true;
+                    datosPagosLector = (DatosPagosLector)result.Result;
+
+                    Reference = datosPagosLector.reference;
+                    apiKey = datosPagosLector.apiKey;
+                    encryptionKey = aesCryptoPraga.Base64Encode(datosPagosLector.encryptionKey);
+                    userCode = datosPagosLector.userCode;
+                    businessID = int.Parse(datosPagosLector.businessID);
+                    Email = datosPagosLector.emailCustomer;
+                    amount = decimal.Parse(datosPagosLector.amount);
+                    strAmount = datosPagosLector.amount;
+                    Concept = datosPagosLector.concept;
+
+                    PaymentAmount = "$" + amount.ToString("N2");
+
+                    SeguirProceso = true;
+
+                    this.IsLoading = false;
+                }
+                else
+                {
+                    await _dialogService.DisplayAlertAsync("Error de conexión", "Lo sentimos, no hemos tenido conexión con el servicio, favor intentarlo más tarde.", "Aceptar");
+                    this.IsLoading = false;
+                    //this.IsEnabled = true;
+                    return;
+                }
             }
 
             if (SeguirProceso)
@@ -210,7 +304,7 @@ namespace CCTPAPP.ViewModels
                     //    {
                     //        System.Threading.Thread.Sleep(5000);
 
-                    //        dps.DoRetail(amount.ToString("N2"), Reference);
+                    //        dps.DoRetail(strAmount, Reference);
 
                     //        ////dps.GetDeviceInfo();
                     //    }
@@ -233,7 +327,7 @@ namespace CCTPAPP.ViewModels
                     {
                         System.Threading.Thread.Sleep(3000);
 
-                        dps.DoRetail(amount.ToString("N2"), Reference);
+                        dps.DoRetail(strAmount, Reference);
                     }
                 }
             }
@@ -250,12 +344,52 @@ namespace CCTPAPP.ViewModels
                     {
                         System.Threading.Thread.Sleep(3000);
 
-                        dps.DoRetail(amount.ToString("N2"), Reference);
+                        dps.DoRetail(strAmount, Reference);
                     }
                 }
             });
         }
 
+        private async void SendPay(string EncryptedResponse)
+        {
+            //Se realiza la consulta para obtener datos y las credenciales
+            ApiServices apiServices = new ApiServices("ReaderPayCard");
+
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("strResponse", EncryptedResponse);
+
+            var result = await apiServices.POST<DatosPagosLector>(
+            action: "",
+            responseType: ApiServices.ResponseType.Object,
+            parameters: parameters);
+        }
+
+        private bool ValidateInternet()
+        {
+            bool result = false;
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _dialogService.DisplayAlertAsync("Error de conexión", "Lo sentimos, el dispositivo no esta conectado a una red, por favor verifique su conexión.", "Aceptar");
+                this.IsLoading = false;
+                result = true;
+            }
+
+            return result;
+        }
+
+        private void CloseMerchantsDialogPageCallback(IDialogResult obj)
+        {
+            if (obj.Parameters.GetValue<PragaMerchants>("merchantSelected") != null)
+            {
+                PragaMerchants pragaMerchants = obj.Parameters.GetValue<PragaMerchants>("merchantSelected");
+                //OnReturnVoucher(returnVoucherData);
+
+                if (pragaMerchants != null)
+                {
+                    dps.SendPay(pragaMerchants.Value);
+                }
+            }
+        }
         #endregion
 
         #region Events
@@ -339,6 +473,35 @@ namespace CCTPAPP.ViewModels
         }
         private void OnReturnTransactionResult(PragaTransactionData pragaTransactionData)
         {
+            string response = "error";
+
+            if (pragaTransactionData.isApproved)
+            {
+                response = "approved";
+            }
+            else if(pragaTransactionData.isCancel)
+            {
+                response = "denied";
+            }
+            else if(pragaTransactionData.isReversal)
+            {
+                response = "error";
+            }
+
+
+            Task.Run(() =>
+                {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        pragaTransactionData.response = response;
+
+                        string json = JsonConvert.SerializeObject(pragaTransactionData);
+                        string encryptedString = aesCryptoPraga.encrypt(json, aesCryptoPraga.DecodeBase64ToString(encryptionKey));
+
+                        SendPay(encryptedString);
+                    });
+                });
+
             var navigationParameters = new NavigationParameters();
             navigationParameters.Add("apiKey", apiKey);
             navigationParameters.Add("encryptionKey", encryptionKey);
@@ -389,11 +552,22 @@ namespace CCTPAPP.ViewModels
                         {
                             System.Threading.Thread.Sleep(3000);
 
-                            dps.DoRetail(amount.ToString("N2"), Reference);
+                            dps.DoRetail(strAmount, Reference);
                         }
                     }
                 });
             }
+        }
+        private void OnReturnMerchants(List<PragaMerchants> lsPragaMerchants)
+        {
+            //var navigationParameters = new NavigationParameters();
+            //navigationParameters.Add("lsPragaMerchants", lsPragaMerchants);
+            //_navigationService.NavigateAsync("MerchantsPage", navigationParameters);
+
+            _iDialogService.ShowDialog("MerchantsDialogPage", new DialogParameters
+                        {
+                            {"lsPragaMerchants", lsPragaMerchants }
+                        }, CloseMerchantsDialogPageCallback);
         }
         #endregion
 
@@ -409,6 +583,7 @@ namespace CCTPAPP.ViewModels
             MessagingCenter.Subscribe<PragaCardInformationData>(this, "OnReturnCardInformation", this.OnReturnCardInformation);
             MessagingCenter.Subscribe<PragaTransactionData>(this, "OnReturnTransactionResult", this.OnReturnTransactionResult);
             MessagingCenter.Subscribe<List<PragaBondedDevicesData>>(this, "OnReturnBondedDevices", this.OnReturnBondedDevices);
+            MessagingCenter.Subscribe<List<PragaMerchants>>(this, "OnReturnMerchants", this.OnReturnMerchants);
         }
 
         public void OnDisappearing()
@@ -421,6 +596,7 @@ namespace CCTPAPP.ViewModels
             MessagingCenter.Unsubscribe<PragaCardInformationData>(this, "OnReturnCardInformation");
             MessagingCenter.Unsubscribe<PragaTransactionData>(this, "OnReturnTransactionResult");
             MessagingCenter.Unsubscribe<List<PragaBondedDevicesData>>(this, "OnReturnBondedDevices");
+            MessagingCenter.Unsubscribe<List<PragaMerchants>>(this, "OnReturnMerchants");
         }
 
         #endregion
@@ -452,6 +628,13 @@ namespace CCTPAPP.ViewModels
                 continuarProcesoPraga = true;
                 RetryPaymentSelectedDevice();
             }
+
+            //if (parameters.GetValue<PragaMerchants>("merchantSelected") != null)
+            //{
+            //    PragaMerchants pragaMerchants = parameters.GetValue<PragaMerchants>("merchantSelected");
+
+            //    dps.SendPay(pragaMerchants.Value);
+            //}
         }
 
         override

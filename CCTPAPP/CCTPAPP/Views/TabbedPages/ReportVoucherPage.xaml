@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CCTPAPP.Views.TabbedPages.ReportVoucherPage"
+             BackgroundColor="#e5e5e5"
+             Title="{Binding Title}">
+    <ContentPage.Content>
+        <ListView x:Name="lvReportVoucher" 
+                      ItemsSource="{Binding ItemsSourceReportVoucher}"
+                      VerticalOptions="FillAndExpand"
+                      HasUnevenRows="true"
+                      SeparatorVisibility="None"
+                      IsPullToRefreshEnabled="False"
+                      IsRefreshing="False"
+                      CachingStrategy="RecycleElement">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout >
+                            <Frame CornerRadius="20" Margin="10" BackgroundColor="#fbfaff" VerticalOptions="FillAndExpand">
+                                <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto" Margin="5">
+                                    <Label Text="{Binding operationType, Mode=TwoWay}" TextColor="Black" HorizontalOptions="Center" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
+                                    <Label Text="{Binding company, Mode=TwoWay}" HorizontalOptions="Center" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" />
+
+                                    <Label Text="{Binding address, Mode=TwoWay}" HorizontalOptions="CenterAndExpand" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" />
+                                    <Label Text="{Binding merchantName, Mode=TwoWay}" HorizontalOptions="Center" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" />
+
+                                    <Label Text="{Binding ccNumber, StringFormat='No. Tarjeta: xxxx xxxx xxxx {0: }', Mode=TwoWay}" HorizontalOptions="Center" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" />
+                                    <Label Text="{Binding ccType, Mode=TwoWay}"  HorizontalOptions="Center" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" />
+
+                                    <Label Text="-C-L-I-E-N-T-E-" HorizontalOptions="Center" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" />
+                                    <Label Text="APROBADA"  HorizontalOptions="Center" Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" />
+
+                                    <Label Text="{Binding ccName, Mode=TwoWay}" TextColor="Black" HorizontalOptions="Center" Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" />
+                                    <Label Text=""  HorizontalOptions="Center" Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="1" />
+
+                                    <Label Text="Importe:" TextColor="Black" HorizontalOptions="Start" Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="1" />
+                                    <Label Text="{Binding amount, StringFormat='{0:C}', Mode=TwoWay}" TextColor="Black" HorizontalOptions="Start" Grid.Column="1" Grid.Row="10" Grid.ColumnSpan="1" />
+
+                                    <Label Text="Oper:" HorizontalOptions="Start" Grid.Column="0" Grid.Row="11" Grid.ColumnSpan="1" />
+                                    <Label Text="{Binding folio, Mode=TwoWay}"  HorizontalOptions="Start" Grid.Column="1" Grid.Row="11" Grid.ColumnSpan="1" />
+
+                                    <Label Text="Aut:" HorizontalOptions="Start" Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="1" />
+                                    <Label Text="{Binding auth, Mode=TwoWay}"  HorizontalOptions="Start" Grid.Column="1" Grid.Row="12" Grid.ColumnSpan="1" />
+
+                                    <Label Text="Ref:" HorizontalOptions="Start" Grid.Column="0" Grid.Row="13" Grid.ColumnSpan="1" />
+                                    <Label Text="{Binding reference, Mode=TwoWay}"  HorizontalOptions="Start" Grid.Column="1" Grid.Row="13" Grid.ColumnSpan="1" />
+
+                                    <Label Text="Fecha:" TextColor="Black" HorizontalOptions="Start" Grid.Column="0" Grid.Row="14" Grid.ColumnSpan="1" />
+                                    <Label Text="{Binding date, StringFormat='{0:dd/MM/yyyy HH:mm:ss}', Mode=TwoWay}" TextColor="Black" HorizontalOptions="Start" Grid.Column="1" Grid.Row="14" />
+
+                                    <Label Text="" TextColor="Black" HorizontalOptions="Start" Grid.Column="1" Grid.Row="15" />
+
+                                    <Image Margin="-45,-40,-45,0" Grid.Column="0" Grid.Row="16" Grid.ColumnSpan="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"  Source="{Binding singVoucher, Mode=TwoWay}"></Image>
+                                </Grid>
+                            </Frame>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
+</ContentPage>

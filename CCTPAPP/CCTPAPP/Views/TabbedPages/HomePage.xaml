@@ -57,7 +57,7 @@
                                                CornerRadius="50" HeightRequest="50" WidthRequest="50"
                                                IsClippedToBounds="True" HorizontalOptions="Center" VerticalOptions="Center"
                                                FlexLayout.AlignSelf="Center" Grid.Row="0">
-                                            <Image Source="ligaPago.png"
+                                            <ImageButton Source="ligaPago.png"
                                                    Aspect="AspectFill"
                                                    Margin="-20"
                                                    HeightRequest="100"
@@ -100,7 +100,7 @@
                                                CornerRadius="50" HeightRequest="50" WidthRequest="50"
                                                IsClippedToBounds="True" HorizontalOptions="Center" VerticalOptions="Center"
                                                FlexLayout.AlignSelf="Center" Grid.Row="0">
-                                            <Image Source="reenviarTicket.png"
+                                            <ImageButton Source="reenviarTicket.png"
                                                    Aspect="AspectFill"
                                                    Margin="-20"
                                                    HeightRequest="100"
@@ -124,7 +124,7 @@
                                                CornerRadius="50" HeightRequest="50" WidthRequest="50"
                                                IsClippedToBounds="True" HorizontalOptions="Center" VerticalOptions="Center"
                                                FlexLayout.AlignSelf="Center" Grid.Row="0">
-                                            <Image Source="cancelacion.png"
+                                            <ImageButton Source="cancelacion.png"
                                                    Aspect="AspectFill"
                                                    Margin="-20"
                                                    HeightRequest="100"
@@ -148,14 +148,14 @@
                                                CornerRadius="50" HeightRequest="50" WidthRequest="50"
                                                IsClippedToBounds="True" HorizontalOptions="Center" VerticalOptions="Center"
                                                FlexLayout.AlignSelf="Center" Grid.Row="0">
-                                            <Image Source="estatusLiga.jpg"
+                                            <ImageButton Source="transacciones.jpg"
                                                    Aspect="AspectFill"
                                                    Margin="-20"
                                                    HeightRequest="100"
-                                                   WidthRequest="100" />
+                                                   WidthRequest="100" Command="{Binding TransactionsPageCommand}"/>
                                         </Frame>
 
-                                        <Label Text="Estatus de liga"
+                                        <Label Text="Transacciones"
                                             HorizontalOptions="Center"
                                             VerticalOptions="Center" Grid.Row="1" />
                                     </Grid>
